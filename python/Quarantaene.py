@@ -9,27 +9,26 @@ pygame.init()
 ## Geometrie
 #
 VidInfo = pygame.display.Info()          # Abfrage der Bildschirmparameter
-streifen_rechts = 160                    # Platz für die Menueleiste      
-streifen_unten  = 130                    # Platz für eine Fußleiste 
-halbzellhh = 7                           # Anzahl der Pixel 
-halbzellbr = 8                           # Anzahl der Pixel 
-kreisradius = 7                          # Anzahl der Pixel
-totalwidth = VidInfo.current_w           # Gesamtbreite in Pixeln
+streifen_rechts = 160                    # Platz für die Menueleiste
+streifen_unten  = 130                    # Platz für eine Fußleiste
+halbzellhh = 7        # Anzahl der Pixel
+halbzellbr = 8        # Anzahl der Pixel
+kreisradius = 7       # Anzahl der Pixel
+totalwidth = VidInfo.current_w             # Gesamtbreite in Pixeln
 breite = (VidInfo.current_w - streifen_rechts) // (2 * halbzellbr) # Zellen
 hoehe  = (VidInfo.current_h - streifen_unten) // (2 * halbzellhh)  # Zellen
-totalheight = hoehe * halbzellhh * 2     # Gesamthoehe in Pixeln
-fontname = "Comic Sans MS"
+totalheight = hoehe * halbzellhh * 2       # Gesamthoehe in Pixeln
 #
-##  Verlaufsanzeige
+## Verlaufsanzeige
 #
 dispbreite = 140      # Breite der Verlaufsanzeige in Pixeln
 disphoehe = 250       # Höhe der Verlaufsanzeige in Pixeln
 dispflug = 30         # Höhe der Nulllinie der Verlaufsanzeige
 #
-## Das Fenster für die Belehrungen 
+## Das Fenster für die Belehrungen
 #
-lfw = 900              # Breite des Fensters in Pixeln 
-lfh = 500              # Höhe   des Fensters in Pixeln 
+lfw = 900              # Breite des Fensters in Pixeln
+lfh = 500              # Höhe   des Fensters in Pixeln
 lehrfenster = ((totalwidth-lfw)//2,(totalheight-lfh)//2,lfw,lfh)
 #
 ## Agressivität
@@ -40,11 +39,11 @@ rreise = 0.003        # W des Ansteckens einer entfernten Zelle, Tag 4-6
 ## Maßnahmen#
 #
 impfbeginn = 500      # Anzahl der Tage bis zur Möglichkeit, zu impfen
-qubeginn = 220        # Anzahl der Tage bis zur Möglichkeit für Quarantäne 
+qubeginn = 220        # Anzahl der Tage bis zur Möglichkeit für Quarantäne
 schutzbeginn = 80     # Anzahl der Tage bis zur Möglichkeit, zu schützen
 quarant = False
 maxquazones = 5       # Anzahl der Quarantänezonen plus Eins
-quazone = 0           # Nummer der zuletzt eingerichteten Quarantänezone 
+quazone = 0           # Nummer der zuletzt eingerichteten Quarantänezone
 #
 ## Geschwindigkeit
 #
@@ -54,8 +53,8 @@ delay = 0.1
 #
 zellbreite = 2 * halbzellbr                    # Anzahl der Pixel
 zellhoehe  = 2 * halbzellhh                    # Anzahl der Pixel
-feldhoehe = totalheight                        # Anzahl der Pixel  
-feldbreite = breite * zellbreite+halbzellbr    # Anzahl der Pixel   
+feldhoehe = totalheight                        # Anzahl der Pixel
+feldbreite = breite * zellbreite+halbzellbr    # Anzahl der Pixel
 rand = totalwidth - feldbreite                 # Anzahl der Pixel
 randmitte = feldbreite + (rand // 2)           # Anzahl der Pixel
 unten = hoehe - 1
@@ -74,7 +73,6 @@ fblau = (0,0,200)
 fhellblau = (100,100,200)
 flind = (0,200,0)
 fgelb = (155,155,0)
-
 #
 # Arrays vorbereiten
 #
@@ -93,7 +91,7 @@ def allegesund():
 #
 ## nachbar : Offset der Nachbarzellen
 #
-nachbars = [[0,-1,-1,-1,0,1],[1,0,-1,0,1,1]]  
+nachbars = [[0,-1,-1,-1,0,1],[1,0,-1,0,1,1]]
 nachbarz = [1,1,0,-1,-1,0]
 #
 ## Quarantärezentren
@@ -122,12 +120,12 @@ def spaltezeile(punkt):
 def distquad(pa,pb):   # Distanz zweier Punkte, quadriert
   return (pa[0]-pb[0])**2 + (pa[1]-pb[1])**2
 #
-# Farbdarstellung für Tag d der Infektion   
+# Farbdarstellung für Tag d der Infektion
 #
 def farbe(d):
   if d <= -9 : return fgruen            # dauerhaft immun
   elif (d == -8): return fblau          # geimpft, deshalb immun
-  elif (d == -2): return (100,100,100)  # Mundschutz 
+  elif (d == -2): return (100,100,100)  # Mundschutz
   elif d in (6,7,8,9): return frot      # ansteckend (Tage 4-5 ohne Farbe!)
   elif (d == 10): return (255,25,25)    # ansteckend
   elif (d == 11): return (255,50,50)    # ansteckend
@@ -155,8 +153,6 @@ def spielfeld():
 #
 win = pygame.display.set_mode((totalwidth,totalheight))
 pygame.display.set_caption("Quarantäne")
-ELMIcon = pygame.image.load('biest5.png')
-pygame.display.set_icon(ELMIcon)
 pygame.display.init()
 fenster = True
 #
@@ -223,35 +219,35 @@ for im in range(-3,4):
   count += 1
 for im in range(-4,6):
   wolke_u[count] = (-1,im)
-  count += 1  
+  count += 1
   wolke_u[count] = (+1,im)
   count += 1
 count = count - 20
 for im in range(-5,5):
   wolke_g[count] = (-1,im)
-  count += 1  
+  count += 1
   wolke_g[count] = (+1,im)
   count += 1
 for im in range(-3,5):
   wolke_u[count] = (-3,im)
-  count += 1  
+  count += 1
   wolke_u[count] = (+3,im)
   count += 1
-count = count - 16  
+count = count - 16
 for im in range(-4,4):
   wolke_g[count] = (-3,im)
-  count += 1  
+  count += 1
   wolke_g[count] = (+3,im)
   count += 1
 for im in range(-2,4):
   wolke_u[count] = (-5,im)
-  count += 1  
+  count += 1
   wolke_u[count] = (+5,im)
   count += 1
 count = count - 12
 for im in range(-3,3):
   wolke_g[count] = (-5,im)
-  count += 1  
+  count += 1
   wolke_g[count] = (+5,im)
   count += 1
 #
@@ -260,7 +256,7 @@ def setquawolke(centrum,wert):
     if (centrum[1] % 2) == 0:
       qua[(centrum[1] + wolke_g[ii][0]) % hoehe]\
           [(centrum[0] + wolke_g[ii][1]) % breite] = wert
-    else:  
+    else:
       qua[(centrum[1] + wolke_u[ii][0]) % hoehe]\
           [(centrum[0] + wolke_u[ii][1]) % breite] = wert
 #
@@ -273,16 +269,16 @@ def drawwolke(centrum,farbe):
       rzeichne((centrum[1] + wolke_u[ii][0]) % hoehe,\
                (centrum[0] + wolke_u[ii][1]) % breite,farbe,10)
 #
-# 
+#
 #
 def quactive(zelle):
   global quazone, quacenter, qua
   quazone = (quazone + 1) % maxquazones
   if (quazone == 0): quazone += 1
-  setquawolke(quacenter[quazone],0)   
+  setquawolke(quacenter[quazone],0)
   drawwolke(quacenter[quazone],(0,0,0))
   quacenter[quazone] = zelle
-  setquawolke(quacenter[quazone],quazone)   
+  setquawolke(quacenter[quazone],quazone)
   drawwolke(quacenter[quazone],fgelb)
   spielfeld()
 #
@@ -320,14 +316,14 @@ def vonhundert(zahl):
 # Verlaufsanzeige vorbereiten
 #
 def dispclear():
-  global prozk, prozks, prozksi 
+  global prozk, prozks, prozksi
   prozk = [dispu] * dispbreite
   prozks = [dispu - disphoehe] * dispbreite
   prozksi = [dispu - disphoehe] * dispbreite
 #
 def vlinie():
-  global prozk, prozks, prozksi 
-  la = vonhundert(zinfiziert) 
+  global prozk, prozks, prozksi
+  la = vonhundert(zinfiziert)
   lc = vonhundert(zgeimpft)
   ld = vonhundert(zimmun)
   h2 = disphoehe - (lc + ld)
@@ -361,23 +357,19 @@ def anstecken():
   for z in range(hoehe):
     for s in range(breite):
       nextday(z,s)
-      if -1 < tag[z][s]: virulent = True 
+      if -1 < tag[z][s]: virulent = True
       if tag[z][s] in (4,5,6,7,8,9,10,11,12,13,14,15):
         rr = rstark
         if tag[z][s] in (13,14,15): rr = rschwach
         for i in range(6):
           if random.random() < rr:
-            [zz,ss] = nachbar(z,s,i) 
+            [zz,ss] = nachbar(z,s,i)
             infect(z,s,zz,ss)
         if (tag[z][s] in (4,5,6)) and (random.random() < rreise):
           zz = random.randrange(0,hoehe)
           ss = random.randrange(0,breite)
           infect(z,s,zz,ss)
-          if (0.6 < schutzfaktor) and (random.random() < .5):
-            zz = random.randrange(0,hoehe)
-            ss = random.randrange(0,breite)
-            infect(z,s,zz,ss)
-#          
+#
 def impfen():
   global zinfizbar,  zinfiziert, zgeimpft, zimmun
   zufallsz = random.randrange(0,hoehe)
@@ -388,7 +380,7 @@ def impfen():
   elif (tag[zufallsz][zufallss] == -9):  zimmun -= 1
   tag[zufallsz][zufallss] = -8;
   zgeimpft += 1
-#  
+#
 def erstinfektion():
   global zinfiziert, zinfizbar
   a = random.randrange(hoehe)
@@ -399,7 +391,7 @@ def erstinfektion():
   tag[a][(b + 2) % breite] = random.randrange(7)
   zinfiziert += 4
   zinfizbar  -= 4
-# fontname = "Comic Sans MS"
+fontname = "Comic Sans MS"
 def text_to_rect(txt, chteck, offset, color, fontsize):
   thisfont = pygame.font.SysFont(fontname, fontsize)
   lbl = thisfont.render(txt, True, color)
@@ -416,9 +408,9 @@ def skipsymb():
   text_to_rect("Skip",skip_eck,(30,10),fhellblau,44)
   text_to_rect("Intro",skip_eck,(30,50),fhellblau,44)
   pygame.display.flip()
-#  
+#
 def skip_on_click():
-  global sec   
+  global sec
   skipclick = False
   for event in pygame.event.get():
     if event.type == pygame.MOUSEBUTTONDOWN:
@@ -428,7 +420,7 @@ def warte(zahl):
   for iw in range(zahl):
     time.sleep(sec)
     skip_on_click()
-#    
+#
 def Einfuehrung():
   global lehrfenster, sec
   sec = 1
@@ -436,26 +428,26 @@ def Einfuehrung():
   lfchen = (lehrfenster[0]+5,lehrfenster[1]+5,lehrfenster[2]-10,\
             lehrfenster[3]-10)
   pygame.draw.rect(win,(200,200,200),lfchen)
+  skipsymb()
   for a in range(hoehe):
     for b in range(breite):
       tag[a][b] = random.randrange(-8,30)
       if tag[a][b] in range(-7,-1): tag[a][b] = -1
   spielfeld()
   pygame.display.update()
-  warte(2)
+  time.sleep(2 * sec)
   pygame.draw.rect(win,(190,190,190),lehrfenster)
   pygame.display.flip()
   time.sleep(1 * sec)
-  skipsymb()
   pygame.draw.rect(win,(200,200,200),lehrfenster)
   tz = "Dieses Spiel ist keine Modellierung"
   offs = (90,120)
   text_to_rect(tz,lehrfenster, offs, frot, 60)
-  warte(1)
+  time.sleep(1 * sec)
   tz = " einer realen Pandemie."
   offs = (180,190)
   text_to_rect(tz,lehrfenster, offs, frot,60)
-  warte(2)
+  time.sleep(1.5 * sec)
   tz = "Die Wirklichkeit ist viel komplizierter."
   offs = (80,320)
   text_to_rect(tz,lehrfenster, offs, frot,60)
@@ -471,7 +463,7 @@ def Einfuehrung():
   offs = (80,110)
   text_to_rect(tz,lehrfenster,offs,fschwarz,40)
   warte(1)
-  tz = "An ihrer Farbe erkennt man, ob sie symptomfrei sind," 
+  tz = "An ihrer Farbe erkennt man, ob sie symptomfrei sind,"
   offs = (80,160)
   text_to_rect(tz,lehrfenster,offs,fschwarz,40)
   tz = "krank, "
@@ -515,7 +507,7 @@ def Einfuehrung():
   tz = "Erneutes Klicken erhöht die Anzahl, "
   offs = (80,290)
   text_to_rect(tz,lehrfenster,offs,fschwarz,40)
-  tz = "senkt zugleich aber die allgemeine Vorsicht."
+  tz = "verzögert aber den Beginn von Quarantänemaßnahmen."
   offs = (80,330)
   text_to_rect(tz,lehrfenster,offs,fschwarz,40)
   pygame.display.flip()
@@ -538,7 +530,7 @@ def Einfuehrung():
   drawwolke((40,13),fgelb)
   drawwolke((100,19),fgelb)
   drawwolke((9,300),fgelb)
-  spielfeld()  
+  spielfeld()
   pygame.draw.rect(win,(200,200,200),lehrfenster)
   draw_qu_symb()
   obenrechts("Quarantäne")
@@ -556,7 +548,7 @@ def Einfuehrung():
   pygame.display.flip()
   warte(7)
   pygame.draw.rect(win,(0,0,0),skip_eck)
-  pygame.draw.circle(win,(0,0,0),qcenter,62) 
+  pygame.draw.circle(win,(0,0,0),qcenter,62)
   pygame.draw.rect(win,(200,200,200),lehrfenster)
   obenrechts("Spielziel")
   tz = "Je weniger Kreise zum Ende der Pandemie grün sind,"
@@ -581,12 +573,12 @@ def Einfuehrung():
   offs = (40,280)
   text_to_rect(tz,lehrfenster,offs,fschwarz,44)
   pygame.display.flip()
-  time.sleep(4 * sec)   
+  time.sleep(4 * sec)
   ganz_schwarz()
   allegesund()
   spielfeld()
   pygame.display.update()
-  time.sleep(2 * sec)     
+  time.sleep(2 * sec)
 #
 #  Main Loop
 #
@@ -616,7 +608,7 @@ while fenster:
   while virulent:
   #
   # Mausereignisse abfragen und darauf reagieren
-  #  
+  #
     impfclick = False
     for event in pygame.event.get():
       if event.type == pygame.QUIT: fenster = False
@@ -624,7 +616,7 @@ while fenster:
         clickpt = pygame.mouse.get_pos()
         feldclick = (clickpt[0] in range(feldbreite))\
           and (clickpt[1] in range(feldhoehe))      # dafür gibt's ein Kommando
-        if feldclick and qbereit: 
+        if feldclick and qbereit:
           quactive(spaltezeile(clickpt))
           feldclick = False
         impfclick = (distquad(clickpt,impfcenter) <= 3600)
@@ -637,14 +629,14 @@ while fenster:
             schutzfaktor = 0.3 + 0.7 * schutzfaktor
             if (pdtag < qustart): qustart += 20
           dicke = int(schutzfaktor * 60)
-          pygame.draw.circle(win,(120,120,120),schutzcenter,60,dicke)     
+          pygame.draw.circle(win,(120,120,120),schutzcenter,60,dicke)
         if (not impfung) and impfclick and (impfbeginn <= pdtag):
           impfung = True
           pygame.draw.circle(win,(0,0,180),impfcenter,60)
   #
     anstecken()
   #
-  # Änderungen abhängig vom Pandemietag 
+  # Änderungen abhängig vom Pandemietag
   #
     if virulent:
       vlinie()
@@ -655,11 +647,11 @@ while fenster:
         draw_qu_symb()
         qbereit = True
       if (impfbeginn == pdtag): impfbereit()
-    # Jeden Tag wird einer geimpft  
+    # Jeden Tag wird einer geimpft
       elif impfung: impfen()
-    # Jeden Tag ziehen 8 den Mundschutz neu an oder wieder aus
+    # Jeden Tag ziehen 10 den Mundschutz neu an oder wieder aus
       if schutz:
-        for iii in range(8):
+        for iii in range(10):
           zufallsz = random.randrange(0,hoehe)
           zufallss = random.randrange(0,breite)
           if (tag[zufallsz][zufallss] == -1) and (random.random()<=schutzfaktor):
@@ -667,7 +659,7 @@ while fenster:
           elif (tag[zufallsz][zufallss] == -2):
             tag[zufallsz][zufallss] = -1
     #
-    # Neuzeichnen  
+    # Neuzeichnen
     #
       spielfeld()
       pygame.display.update()
@@ -677,28 +669,28 @@ while fenster:
       pygame.draw.rect(win,(80,80,80),lehrfenster)
       spielfeld()
       pygame.display.flip()
-      time.sleep(1)  
+      time.sleep(1)
       pygame.draw.rect(win,(200,200,200),lehrfenster)
       obenrechts("Bewertung")
       tz = "Nach " + str(pdtag) + " Tagen ist diese Pandemie nun erloschen."
       offs = (60,120)
-      text_to_rect(tz,lehrfenster, offs, fschwarz, 44)  
+      text_to_rect(tz,lehrfenster, offs, fschwarz, 44)
       pygame.display.flip()
       time.sleep(2)
       if pdtag < qustart:
         tz = "Glück gehabt!"
         offs = (60,220)
-        text_to_rect(tz,lehrfenster, offs, fschwarz, 44)  
+        text_to_rect(tz,lehrfenster, offs, fschwarz, 44)
         tz = "Gelegentlich versiegt eine Infektionskette durch Zufall."
         offs = (60,320)
-        text_to_rect(tz,lehrfenster, offs, fschwarz, 44)  
+        text_to_rect(tz,lehrfenster, offs, fschwarz, 44)
         pygame.display.flip()
-      else:  
+      else:
         immunrate = (zimmun * 100) // zellzahl
         tz = str(immunrate) + \
           "% der Kreise hatten einen schweren Infektionsverlauf."
         offs = (60,220)
-        text_to_rect(tz,lehrfenster, offs, fschwarz, 44)  
+        text_to_rect(tz,lehrfenster, offs, fschwarz, 44)
         pygame.display.flip()
         time.sleep(2)
         if immunrate < 20:
@@ -706,14 +698,14 @@ while fenster:
         elif (20 <= immunrate) and (immunrate < 32):
           tz = "Gut! Etwa halb so schlimm wie ohne Maßnahmen."
         elif (32 <= immunrate) and (immunrate < 47):
-          tz = "Kein gutes Ergebnis. Die Maßnahmen reichten nicht aus!"
+          tz = "Kein gutes Ergebnis. Der Eigenschutz hat wohl gefehlt."
         else:
           tz = "Schlimm! Ein schlechtes Krisenmanagement!"
         offs = (60,320)
-        text_to_rect(tz,lehrfenster, offs, fschwarz, 44)  
+        text_to_rect(tz,lehrfenster, offs, fschwarz, 44)
         pygame.display.flip()
-        time.sleep(10)  
-  print("Tage: ",pdtag)    
+        time.sleep(10)
+  print("Tage: ",pdtag)
   print(" Geimpft: ",zgeimpft, "Immun: ",zimmun,"Infiziert: ",zinfiziert,"Infbar: ",zinfizbar,"Zusammen: ",zgeimpft+zimmun+zinfiziert+zinfizbar)
   pygame.display.update()
 pygame.quit()
