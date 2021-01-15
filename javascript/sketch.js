@@ -9,13 +9,12 @@ class Game {
         el: {},
     };
     people = {
-        size: 21,
+        size: 12,
         space: 1,
         lst: [],
     };
     score = [];
     rate = {
-        qsize: 3,
         strong: 0.039,
         weak: 0.013,
         travel: 0.003,
@@ -37,12 +36,12 @@ class Game {
         counter: 0,
     }
     result_ = {
-        time: 100,
+        time: 400,
         counter: 0,
     }
     load = {
-        margin: 5,
-        height: 5,
+        margin: 0,
+        height: 3,
     }
     qzones = [];
 
@@ -120,6 +119,13 @@ class Game {
             stroke(colors['healthy4']);
             strokeWeight(13);
             circle(this.sidebar.el.center, this.sidebar.el.protect, this.sidebar.el.bsize);
+            // fill circle depending on protection status
+            if (this.protection) {
+                stroke(colors['healthy']);
+                strokeWeight(map(this.rate.protection, 0.2, 1.0, this.sidebar.el.bsize / 2, this.sidebar.el.bsize));
+                circle(this.sidebar.el.center, this.sidebar.el.protect, 1);
+            }
+            strokeWeight(5);
             stroke(colors.background);
             fill(colors.text);
             text('Schutz', this.sidebar.el.center, this.sidebar.el.protect + this.sidebar.perc / 4);
@@ -142,6 +148,7 @@ class Game {
             stroke(colors.quarantine4);
             strokeWeight(13);
             circle(this.sidebar.el.center, this.sidebar.el.quarantine, this.sidebar.el.bsize);
+            strokeWeight(5);
             stroke(colors.background);
             fill(colors.text);
             text('Q', this.sidebar.el.center, this.sidebar.el.quarantine + this.sidebar.perc / 4);
@@ -164,6 +171,7 @@ class Game {
             stroke(colors['-84']);
             strokeWeight(13);
             circle(this.sidebar.el.center, this.sidebar.el.vaccinate, this.sidebar.el.bsize);
+            strokeWeight(5);
             stroke(colors.background);
             fill(colors.text);
             text('Impfen', this.sidebar.el.center, this.sidebar.el.vaccinate + this.sidebar.perc / 4);
@@ -222,13 +230,21 @@ class Game {
         text(par, offset_x + len_x / 100 * this.text.textmargin, offset_y + len_y / 100 * (this.text.textmargin + 20), len_x, len_y)
         if (legend) {
             fill(colors.healthy);
-            circle(offset_x + len_x / 100 * this.text.textmargin + this.text.par / 2, offset_y + len_y / 100 * (this.text.textmargin + 43.5), this.text.par);
+            circle(offset_x + len_x / 100 * this.text.textmargin + this.text.par / 2, offset_y + len_y / 100 * (this.text.textmargin + 50), this.text.par);
+            fill(colors.text);
+            text('symptomfrei', offset_x + len_x / 100 * this.text.textmargin + 15 + this.text.par / 2, offset_y + len_y / 100 * (this.text.textmargin + 52));
             fill(colors['6']);
-            circle(offset_x + len_x / 100 * this.text.textmargin + this.text.par / 2, offset_y + len_y / 100 * (this.text.textmargin + 50.5), this.text.par);
+            circle(offset_x + len_x / 100 * this.text.textmargin + this.text.par / 2, offset_y + len_y / 100 * (this.text.textmargin + 60), this.text.par);
+            fill(colors.text);
+            text('krank', offset_x + len_x / 100 * this.text.textmargin + 15 + this.text.par / 2, offset_y + len_y / 100 * (this.text.textmargin + 62));
             fill(colors['-9']);
-            circle(offset_x + len_x / 100 * this.text.textmargin + this.text.par / 2, offset_y + len_y / 100 * (this.text.textmargin + 57.5), this.text.par);
+            circle(offset_x + len_x / 100 * this.text.textmargin + this.text.par / 2, offset_y + len_y / 100 * (this.text.textmargin + 70), this.text.par);
+            fill(colors.text);
+            text('immun', offset_x + len_x / 100 * this.text.textmargin + 15 + this.text.par / 2, offset_y + len_y / 100 * (this.text.textmargin + 72));
             fill(colors['-8']);
-            circle(offset_x + len_x / 100 * this.text.textmargin + this.text.par / 2, offset_y + len_y / 100 * (this.text.textmargin + 64.5), this.text.par);
+            circle(offset_x + len_x / 100 * this.text.textmargin + this.text.par / 2, offset_y + len_y / 100 * (this.text.textmargin + 80), this.text.par);
+            fill(colors.text);
+            text('geimpft', offset_x + len_x / 100 * this.text.textmargin + 15 + this.text.par / 2, offset_y + len_y / 100 * (this.text.textmargin + 82));
         }
         pop();
     }
@@ -274,7 +290,20 @@ class Game {
     }
 
     intro() {
+        push();
         this.draw();
+        fill(colors.background);
+        rectMode(CORNERS);
+        rect(0, 0, 170, 50);
+        textSize(this.text.header);
+        stroke(colors.background);
+        fill(colors.text);
+        textAlign(LEFT);
+        textSize(this.text.header);
+        text('Vollbild', 10, 40);
+        pop();
+
+        push();
         let timeunit = this.intro_.time / 11;
         let h = '';
         let t = '';
@@ -285,7 +314,7 @@ class Game {
         }
         if (this.intro_.counter >= 1 * timeunit) {
             h = 'Spielidee';
-            t = 'Die kleinen Kreise können sich gegenseitig anstecken. An ihrer Farbe erkennt man, wie es ihnen geht:\n\t\tsymptomfrei\n\t\tkrank\n\t\timmun\n\t\tgeimpft';
+            t = 'Die kleinen Kreise können sich gegenseitig anstecken. An ihrer Farbe erkennt man, wie es ihnen geht:';
             if (this.intro_.counter < 3 * timeunit)
                 legend = true;
         }
@@ -467,16 +496,12 @@ class Person {
 
 var colors;
 var game;
-var icon;
 
 function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
 }
 
 function setup() {
-      loadImage('view-fullscreen.svg', img => {
-              image(img, 0, 0);
-            });
     var handler = {
         get: function(target, name) {
             return target.hasOwnProperty(name) ? target[name] : color(60,60,60);
@@ -553,14 +578,12 @@ function windowResized() {
 function mousePressed() {
     switch (game.state) {
         case 'intro':
-            if (mouseX < 500 && mouseY < 500) {
+            if (mouseX < 170 && mouseY < 50) {
                 // fullscreen button
-                console.log('fullscreen');
                 let fs = fullscreen();
                 fullscreen(!fs);
             } else {
                 // start the game
-                console.log('start game');
                 game.intro_.counter = 0;
                 game.state = 'play';
                 game.initPlay();
@@ -578,10 +601,23 @@ function mousePressed() {
                 }
             } else if (game.size.x > mouseX && game.size.y > mouseY) {
                 if (game.rate.begin.quarantine < game.days) {
+                    // find closest person to click
+                    let pr = 0;
+                    let pc = 0;
+                    let d = 1000;
+                    game.people.lst.forEach(function(person) {
+                        if (dist(person.x, person.y, mouseX, mouseY) <= d) {
+                            pc = person.row;
+                            pr = person.col;
+                            d = dist(person.x, person.y, mouseX, mouseY);
+                        }
+                    });
+                    // put people in quarantine
                     let q = [];
                     game.people.lst.forEach(function(person) {
-                        if (dist(person.x, person.y, mouseX, mouseY) < game.rate.qsize * game.people.size) // TODO always select nice shape
+                        if (dist(person.col, person.row, pr, pc) < 4) {
                             q.push(person.col * game.people.cols + person.row);
+                        }
                     });
                     if (game.qzones.length > 3) {
                         let q_old = game.qzones.splice(0, 1).flat();
