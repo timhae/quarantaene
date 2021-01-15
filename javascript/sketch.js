@@ -9,7 +9,7 @@ class Game {
         el: {},
     };
     people = {
-        size: 12,
+        size: 21,
         space: 1,
         lst: [],
     };
@@ -467,12 +467,16 @@ class Person {
 
 var colors;
 var game;
+var icon;
 
 function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
 }
 
 function setup() {
+      loadImage('view-fullscreen.svg', img => {
+              image(img, 0, 0);
+            });
     var handler = {
         get: function(target, name) {
             return target.hasOwnProperty(name) ? target[name] : color(60,60,60);
@@ -542,12 +546,25 @@ function draw() {
     }
 }
 
+function windowResized() {
+    setup(); // restart the game when the window size changes
+}
+
 function mousePressed() {
     switch (game.state) {
         case 'intro':
-            game.intro_.counter = 0;
-            game.state = 'play';
-            game.initPlay();
+            if (mouseX < 500 && mouseY < 500) {
+                // fullscreen button
+                console.log('fullscreen');
+                let fs = fullscreen();
+                fullscreen(!fs);
+            } else {
+                // start the game
+                console.log('start game');
+                game.intro_.counter = 0;
+                game.state = 'play';
+                game.initPlay();
+            }
             break;
         case 'play':
             if (dist(mouseX, mouseY, game.sidebar.el.center, game.sidebar.el.protect) < (game.sidebar.el.bsize / 2)) {
