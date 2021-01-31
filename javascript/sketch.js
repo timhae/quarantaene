@@ -590,7 +590,7 @@ function mousePressed() {
                     // put people in quarantine
                     let q = [];
                     game.people.lst.forEach(function(person) {
-                        if (dist(person.x, person.y, x, y) < 3.1 * game.people.size) {
+                        if (dist(person.x, person.y, x, y) < 3.28 * game.people.size) {
                             q.push(person.col * game.people.cols + person.row);
                         }
                     });
