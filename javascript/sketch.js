@@ -222,7 +222,7 @@ class Game {
         if (b1 != '') {
             strokeWeight(5);
             stroke(colors.background);
-            fill(colors.text_background);
+            fill(colors.default_color);
             rect(start_x, stop_y, stop_x - len_x / 2, stop_y - this.text.header * 1.5);
             stroke(colors.text_background);
             fill(colors.text);
@@ -235,7 +235,7 @@ class Game {
         if (b2 != '') {
             strokeWeight(5);
             stroke(colors.background);
-            fill(colors.text_background);
+            fill(colors.default_color);
             rect(start_x + len_x / 2, stop_y, stop_x, stop_y - this.text.header * 1.5);
             stroke(colors.text_background);
             fill(colors.text);
@@ -249,18 +249,18 @@ class Game {
         text(par, start_x_o, start_y_o + 2 * step_y, 10 * step_x, 8 * step_y);
         if (legend) {
             fill(colors.healthy);
-            circle(start_x_o + 1 * step_x, start_y_o + 5 * step_y, this.text.par);
-            fill(colors['6']);
-            circle(start_x_o + 1 * step_x, start_y_o + 6 * step_y, this.text.par);
-            fill(colors['-9']);
             circle(start_x_o + 1 * step_x, start_y_o + 7 * step_y, this.text.par);
-            fill(colors['-8']);
+            fill(colors['6']);
+            circle(start_x_o + 5 * step_x, start_y_o + 7 * step_y, this.text.par);
+            fill(colors['-9']);
             circle(start_x_o + 1 * step_x, start_y_o + 8 * step_y, this.text.par);
+            fill(colors['-8']);
+            circle(start_x_o + 5 * step_x, start_y_o + 8 * step_y, this.text.par);
             fill(colors.text);
-            text('symptomfrei', start_x_o + 1 * step_x + this.text.par, start_y_o + 5 * step_y + this.text.par / 2);
-            text('krank', start_x_o + 1 * step_x + this.text.par, start_y_o + 6 * step_y + this.text.par / 2);
-            text('immun', start_x_o + 1 * step_x + this.text.par, start_y_o + 7 * step_y + this.text.par / 2);
-            text('geimpft', start_x_o + 1 * step_x + this.text.par, start_y_o + 8 * step_y + this.text.par / 2);
+            text('symptomfrei', start_x_o + 1 * step_x + this.text.par, start_y_o + 7 * step_y + this.text.par / 2);
+            text('krank', start_x_o + 5 * step_x + this.text.par, start_y_o + 7 * step_y + this.text.par / 2);
+            text('immun', start_x_o + 1 * step_x + this.text.par, start_y_o + 8 * step_y + this.text.par / 2);
+            text('geimpft', start_x_o + 5 * step_x + this.text.par, start_y_o + 8 * step_y + this.text.par / 2);
         }
         pop();
     }
@@ -305,6 +305,7 @@ class Game {
         if (this.intro_.counter == 2) {
             h = 'Spielidee';
             t = 'Bekämpfe die Pandemie durch Schutzmaßnahmen, Quarantäne und Impfung!';
+            this.days = this.rate.begin.vaccinate + 1;
         }
         if (this.intro_.counter == 3) {
             h = 'Schutz';
