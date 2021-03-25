@@ -32,7 +32,7 @@ class Game {
         textmargin: 8,
     }
     intro_ = {
-        time: 10,
+        time: 9,
         counter: 0,
     }
     qzones = [];
@@ -157,6 +157,12 @@ class Game {
             stroke(colors['-84']);
             strokeWeight(13);
             circle(this.sidebar.el.center, this.sidebar.el.vaccinate, this.sidebar.el.bsize);
+            // fill circle depending on vacc status
+            if (this.vaccinate) {
+                stroke(colors['-83']);
+                strokeWeight(this.sidebar.el.bsize);
+                circle(this.sidebar.el.center, this.sidebar.el.vaccinate, 1);
+            }
             strokeWeight(5);
             stroke(colors.background);
             fill(colors.text);
@@ -249,23 +255,29 @@ class Game {
         text(par, start_x_o, start_y_o + 2 * step_y, 10 * step_x, 8 * step_y);
         if (legend) {
             fill(colors.healthy);
-            circle(start_x_o + 1 * step_x, start_y_o + 7 * step_y, this.text.par);
+            circle(start_x_o + 1 * step_x, start_y_o + 7 * step_y, 2 * this.text.par);
             fill(colors['6']);
-            circle(start_x_o + 8 * step_x, start_y_o + 7 * step_y, this.text.par);
+            circle(start_x_o + 8 * step_x, start_y_o + 7 * step_y, 2 * this.text.par);
             fill(colors['-9']);
-            circle(start_x_o + 1 * step_x, start_y_o + 8 * step_y, this.text.par);
+            circle(start_x_o + 1 * step_x, start_y_o + 8 * step_y, 2 * this.text.par);
             fill(colors['-8']);
-            circle(start_x_o + 8 * step_x, start_y_o + 8 * step_y, this.text.par);
+            circle(start_x_o + 8 * step_x, start_y_o + 8 * step_y, 2 * this.text.par);
             fill(colors.text);
-            text('gesund', start_x_o + 1 * step_x + this.text.par, start_y_o + 7 * step_y + this.text.par / 2);
-            text('krank', start_x_o + 8 * step_x + this.text.par, start_y_o + 7 * step_y + this.text.par / 2);
-            text('immun nach schwerer Erkrankung', start_x_o + 1 * step_x + this.text.par, start_y_o + 8 * step_y + this.text.par / 2);
-            text('geimpft', start_x_o + 8 * step_x + this.text.par, start_y_o + 8 * step_y + this.text.par / 2);
+            text('gesund', start_x_o + 1.1 * step_x + this.text.par, start_y_o + 7 * step_y + this.text.par / 2);
+            text('krank', start_x_o + 8.1 * step_x + this.text.par, start_y_o + 7 * step_y + this.text.par / 2);
+            text('immun nach schwerer Erkrankung', start_x_o + 1.1 * step_x + this.text.par, start_y_o + 8 * step_y + this.text.par / 2);
+            text('geimpft', start_x_o + 8.1 * step_x + this.text.par, start_y_o + 8 * step_y + this.text.par / 2);
         }
         if (this.intro_.counter == 0) { // bild
-            image(img, start_x_o + 3 * step_x, start_y_o + 2 * step_y, img.width / 2, img.height / 2);
-        }
-        if (this.intro_.counter == 1) { // mehr dazu
+            push();
+            textAlign(CENTER);
+            textSize(this.text.header * 2);
+            fill(colors.text);
+            text('Quarantäne', start_x_o + 5 * step_x, start_y_o + 3 * step_y);
+            textSize(this.text.par);
+            textAlign(LEFT);
+            let aspect_ratio = img.height / img.width;
+            image(img, start_x + 0.2 * step_x, start_y + 0.2 * step_y, step_x, step_x * aspect_ratio); // seitenverhaeltnis
             strokeWeight(5);
             stroke(colors.background);
             fill(colors.default_color);
@@ -277,45 +289,82 @@ class Game {
             this.b3_start_y = stop_y - this.text.header * 3;
             this.b3_stop_x = stop_x;
             this.b3_stop_y = stop_y - this.text.header * 1.5;
+            pop();
         }
-        if (this.intro_.counter == 5) {
+        if (this.intro_.counter == 3) {
             push();
             textAlign(CENTER);
             fill(colors.background);
             stroke(colors['healthy1']);
             strokeWeight(3);
-            circle(start_x + 2 * step_x, start_y + 8 * step_y, this.sidebar.el.bsize);
+            circle(start_x + 4 * step_x, start_y + 8 * step_y, this.sidebar.el.bsize);
             strokeWeight(5);
             stroke(colors.background);
             fill(colors.text);
-            text('Schutz', start_x + 2 * step_x, start_y + 8 * step_y + this.sidebar.perc / 1.2);
+            text('Schutz', start_x + 4 * step_x, start_y + 8 * step_y + this.sidebar.perc / 1.2);
+            pop();
+            push();
+            textAlign(CENTER);
+            fill(colors.background);
+            stroke(colors.quarantine1);
+            strokeWeight(3);
+            circle(start_x + 6 * step_x, start_y + 8 * step_y, this.sidebar.el.bsize);
+            strokeWeight(5);
+            stroke(colors.background);
+            fill(colors.text);
+            textSize(this.text.header);
+            text('Q', start_x + 6 * step_x, start_y + 8 * step_y + this.sidebar.perc);
+            pop();
+            push();
+            textAlign(CENTER);
+            fill(colors.background);
+            stroke(colors['-81']);
+            strokeWeight(3);
+            circle(start_x + 8 * step_x, start_y + 8 * step_y, this.sidebar.el.bsize);
+            strokeWeight(5);
+            stroke(colors.background);
+            fill(colors.text);
+            text('Impfen', start_x + 8 * step_x, start_y + 8 * step_y + this.sidebar.perc / 1.2);
+            pop();
+        }
+        if (this.intro_.counter == 4) {
+            push();
+            textAlign(CENTER);
+            fill(colors.background);
+            stroke(colors['healthy1']);
+            strokeWeight(3);
+            circle(start_x + 6 * step_x, start_y + 8 * step_y, this.sidebar.el.bsize);
+            strokeWeight(5);
+            stroke(colors.background);
+            fill(colors.text);
+            text('Schutz', start_x + 6 * step_x, start_y + 8 * step_y + this.sidebar.perc / 1.2);
+            pop();
+        }
+        if (this.intro_.counter == 5) {
+            push();
+            textAlign(CENTER);
+            fill(colors.background);
+            stroke(colors.quarantine1);
+            strokeWeight(3);
+            circle(start_x + 6 * step_x, start_y + 8 * step_y, this.sidebar.el.bsize);
+            strokeWeight(5);
+            stroke(colors.background);
+            fill(colors.text);
+            textSize(this.text.header);
+            text('Q', start_x + 6 * step_x, start_y + 8 * step_y + this.sidebar.perc);
             pop();
         }
         if (this.intro_.counter == 6) {
             push();
             textAlign(CENTER);
             fill(colors.background);
-            stroke(colors.quarantine1);
-            strokeWeight(3);
-            circle(start_x + 2 * step_x, start_y + 8 * step_y, this.sidebar.el.bsize);
-            strokeWeight(5);
-            stroke(colors.background);
-            fill(colors.text);
-            textSize(this.text.header);
-            text('Q', start_x + 2 * step_x, start_y + 8 * step_y + this.sidebar.perc);
-            pop();
-        }
-        if (this.intro_.counter == 7) {
-            push();
-            textAlign(CENTER);
-            fill(colors.background);
             stroke(colors['-81']);
             strokeWeight(3);
-            circle(start_x + 2 * step_x, start_y + 8 * step_y, this.sidebar.el.bsize);
+            circle(start_x + 6 * step_x, start_y + 8 * step_y, this.sidebar.el.bsize);
             strokeWeight(5);
             stroke(colors.background);
             fill(colors.text);
-            text('Impfen', start_x + 2 * step_x, start_y + 8 * step_y + this.sidebar.perc / 1.2);
+            text('Impfen', start_x + 6 * step_x, start_y + 8 * step_y + this.sidebar.perc / 1.2);
             pop();
         }
         pop();
@@ -352,51 +401,48 @@ class Game {
         this.days = 0;
         if (this.intro_.counter == -1) {
             h = 'Impressum';
-            t = 'QUARANTÄNE\nSpielidee: Prof. Bernhard Ganter\nProgrammierung: Tim Häring / Bernhard Ganter\nVersion 1.0, 2021\nErlebnisland Mathematik\nEine Kooperation der Fakultät Mathematik der TU Dresden und der Technischen Sammlungen Dresden\nJunghansstr. 1-3\n01277 Dresden';
+            t = 'QUARANTÄNE\n\nSpielidee: Prof. Bernhard Ganter\nProgrammierung: Tim Häring / Bernhard Ganter\nVersion 1.0, 2021\n\nErlebnisland Mathematik\nEine Kooperation der Fakultät Mathematik der TU Dresden\nund der Technischen Sammlungen Dresden\nJunghansstr. 1-3\n01277 Dresden';
             b1 = 'Zum Spiel';
             b2 = '';
         }
         if (this.intro_.counter == 0) {
             // TODO bild
-            h = 'Quarantäne';
             b1 = 'Zum Spiel';
-            b2 = 'Impressium';
+            b2 = 'Impressum';
         }
         if (this.intro_.counter == 1) {
-            t = 'Dieses Spiel ist keine Modellierung einer realen Pandemie. Die Wirklichkeit ist viel komplizierter.';
-        }
-        if (this.intro_.counter == 2) {
+            b1 = 'Zur Spielanleitung';
             t = 'Dieses Spiel ist keine Modellierung einer realen Pandemie. Dazu müssten auf dem Spielfeld nicht nur ein paar tausend, sondern viele Millionen Spielpunkte dargestellt werden. Um ein Spielerlebnis zu ermöglichen und die Wirkung verschiedener Maßnahmen zum Infektionsschutz deutlich zu machen, unterscheiden sich auch die Zahlenangaben im Spiel von der Wirklichkeit. So liegt der Anteil der „schwer Erkrankten“ am Ende des Spiels fast immer um ein Vielfaches über den Verhältnissen bei einer realen Pandemie. Ein Anteil der schweren Infektionen von 20% wäre in der Wirklichkeit eine Katastrophe, ist im Spiel aber ein gutes Ergebnis. Damit das Spiel nicht zu schnell endet, müssen die einzelnen Punkte außerdem viermal von einer Infektion genesen, bevor sie dauerhaft immun sind. Auch die in Tagen angegebene Dauer des Spiels hat nichts mit dem realen Verlauf einer Pandemie zu tun. Die Wirklichkeit ist viel komplizierter als das Spiel.';
         }
-        if (this.intro_.counter == 3) {
+        if (this.intro_.counter == 2) {
             h = 'Spielidee';
             t = 'Die kleinen Kreise können sich gegenseitig anstecken. An ihrer Farbe erkennst du, wie es ihnen geht:';
             legend = true;
         }
-        if (this.intro_.counter == 4) {
+        if (this.intro_.counter == 3) {
             h = 'Spielidee';
             t = 'Bekämpfe die Pandemie, indem Du Schutzmaßnahmen ergreifst, Gruppen von Punkten unter Quarantäne stellst und ein Impfprogramm startest.';
         }
-        if (this.intro_.counter == 5) {
+        if (this.intro_.counter == 4) {
             h = 'Schutz';
             t = 'Wenn Du auf das graue Schutzsymbol klickst, werden einige der grauen Punkte heller. Sie sind besser geschützt und stecken sich weniger leicht an. Je häufiger Du klickst, desto mehr Punkte sind geschützt. Gleichzeitig sinkt aber die allgemeine Vorsicht.';
             this.days = this.rate.begin.protection + 1;
         }
-        if (this.intro_.counter == 6) {
+        if (this.intro_.counter == 5) {
             h = 'Quarantäne';
             t = 'Sobald im gelben Kreis das Q erscheint, kannst Du durch Klicken auf das Spielfeld Quarantänezonen einrichten. Bis zu 4 Quarantänezonen gleichzeitig sind möglich.';
             this.days = this.rate.begin.quarantine + 1;
         }
-        if (this.intro_.counter == 7) {
+        if (this.intro_.counter == 6) {
             h = 'Impfen';
             t = 'Mit einem Klick auf das blaue Impfsymbol startest Du die Impfkampagne.';
             this.days = this.rate.begin.vaccinate + 1;
         }
-        if (this.intro_.counter == 8) {
+        if (this.intro_.counter == 7) {
             h = 'Spielziel';
             t = 'Sobald es keine ansteckenden (roten) Punkte mehr gibt, kommt die Pandemie zum Stillstand. Wichtiger als die Dauer der Pandemie ist die Zahl der schwer Erkrankten. Im Spiel ist es desto besser, je weniger Punkte am Ende grün sind. Denn die grünen Punkte stehen für schwere Krankheitsverläufe.';
         }
-        if (this.intro_.counter == 9) {
+        if (this.intro_.counter == 8) {
             h = 'Los geht\'s!';
             t = 'Los geht’s! Zunächst entwickelt sich die Pandemie ungestört. Nach einiger Zeit kannst Du beginnen, ihre Ausbreitung zu bekämpfen.';
             b1 = 'Anleitung neu starten';
@@ -411,22 +457,22 @@ class Game {
     play() {
         this.draw();
         if (!this.virulent) {
-            this.intro_.counter = 0;
+            this.intro_.counter = 1;
             this.state = 'result';
             let t = 'Nach ' + this.days + ' Tagen ist diese Pandemie nun erloschen.'
             if (this.days < this.rate.begin.quarantine) {
-                t += ' Glück gehabt! Gelegentlich versiegt eine Infektionskette durch Zufall.';
+                t += '\n\nGlück gehabt! Gelegentlich versiegt eine Infektionskette durch Zufall.';
             } else {
                 let rate = floor(this.people.lst.filter(person => person.days == -9).length * 100 / this.people.lst.length);
-                t += ' ' + rate + '% der Kreise hatten einen schweren Infektionsverlauf.';
+                t += ' ' + rate + '% der Kreise hatten einen schweren Infektionsverlauf.\n\n';
                 if (rate < 20)
-                    t += ' Das ist ein ausgezeichnetes Ergebnis.';
+                    t += 'Das ist ein ausgezeichnetes Ergebnis.';
                 else if (rate < 32)
-                    t += ' Gut! Etwa halb so schlimm wie ohne Maßnahmen.';
+                    t += 'Gut! Etwa halb so schlimm wie ohne Maßnahmen.';
                 else if (rate < 47)
-                    t += ' Kein gutes Ergebnis. Die Maßnahmen reichten nicht aus!';
+                    t += 'Kein gutes Ergebnis. Die Maßnahmen reichten nicht aus!';
                 else
-                    t += ' Schlimm! Ein schlechtes Krisenmanagement!';
+                    t += 'Schlimm! Ein schlechtes Krisenmanagement!';
             }
             this.dialog('Bewertung', t, false, 'Anleitung', 'Neu Starten');
         } else {
@@ -637,7 +683,7 @@ function mousePressed() {
                     game.initPlay();
                 }
             } else {
-                if (game.intro_.counter == 1) {
+                if (game.intro_.counter == 0) {
                     if (mouseX >= game.b3_start_x && mouseX <= game.b3_stop_x &&
                         mouseY >= game.b3_start_y && mouseY <= game.b3_stop_y) {
                         game.intro_.counter += 1;
