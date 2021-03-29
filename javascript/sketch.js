@@ -421,21 +421,21 @@ class Game {
         }
         if (this.intro_.counter == 3) {
             h = 'Spielidee';
-            t = 'Bekämpfe die Pandemie, indem Du Schutzmaßnahmen ergreifst, Gruppen von Punkten unter Quarantäne stellst und ein Impfprogramm startest.';
+            t = 'Bekämpfe die Pandemie, indem du Schutzmaßnahmen ergreifst, Gruppen von Punkten unter Quarantäne stellst und ein Impfprogramm startest.';
         }
         if (this.intro_.counter == 4) {
             h = 'Schutz';
-            t = 'Wenn Du auf das graue Schutzsymbol klickst, werden einige der grauen Punkte heller. Sie sind besser geschützt und stecken sich weniger leicht an. Je häufiger Du klickst, desto mehr Punkte sind geschützt. Gleichzeitig sinkt aber die allgemeine Vorsicht.';
+            t = 'Wenn du auf das graue Schutzsymbol klickst, werden einige der grauen Punkte heller. Sie sind besser geschützt und stecken sich weniger leicht an. Je häufiger du klickst, desto mehr Punkte sind geschützt. Gleichzeitig sinkt aber die allgemeine Vorsicht.';
             this.days = this.rate.begin.protection + 1;
         }
         if (this.intro_.counter == 5) {
             h = 'Quarantäne';
-            t = 'Sobald im gelben Kreis das Q erscheint, kannst Du durch Klicken auf das Spielfeld Quarantänezonen einrichten. Bis zu 4 Quarantänezonen gleichzeitig sind möglich.';
+            t = 'Sobald im gelben Kreis das Q erscheint, kannst du durch Klicken auf das Spielfeld Quarantänezonen einrichten. Bis zu 4 Quarantänezonen gleichzeitig sind möglich.';
             this.days = this.rate.begin.quarantine + 1;
         }
         if (this.intro_.counter == 6) {
             h = 'Impfen';
-            t = 'Mit einem Klick auf das blaue Impfsymbol startest Du die Impfkampagne.';
+            t = 'Mit einem Klick auf das blaue Impfsymbol startest du die Impfkampagne.';
             this.days = this.rate.begin.vaccinate + 1;
         }
         if (this.intro_.counter == 7) {
@@ -444,7 +444,7 @@ class Game {
         }
         if (this.intro_.counter == 8) {
             h = 'Los geht\'s!';
-            t = 'Los geht’s! Zunächst entwickelt sich die Pandemie ungestört. Nach einiger Zeit kannst Du beginnen, ihre Ausbreitung zu bekämpfen.';
+            t = 'Los geht’s! Zunächst entwickelt sich die Pandemie ungestört. Nach einiger Zeit kannst du beginnen, ihre Ausbreitung zu bekämpfen.';
             b1 = 'Anleitung neu starten';
         }
         this.dialog(h, t, legend, b1, b2);
