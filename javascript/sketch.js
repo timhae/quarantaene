@@ -273,11 +273,11 @@ class Game {
             textAlign(CENTER);
             textSize(this.text.header * 2);
             fill(colors.text);
-            text('Quarantäne', start_x_o + 5 * step_x, start_y_o + 3 * step_y);
+            text('Quarantäne', start_x_o + 5 * step_x, start_y_o + 4 * step_y);
             textSize(this.text.par);
             textAlign(LEFT);
             let aspect_ratio = img.height / img.width;
-            image(img, start_x + 0.2 * step_x, start_y + 0.2 * step_y, step_x, step_x * aspect_ratio); // seitenverhaeltnis
+            image(img, start_x + 0.2 * step_x, start_y + 0.2 * step_y, 3 * step_x, 3 * step_x * aspect_ratio); // seitenverhaeltnis
             strokeWeight(5);
             stroke(colors.background);
             fill(colors.default_color);
