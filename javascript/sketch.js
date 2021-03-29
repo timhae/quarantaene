@@ -401,7 +401,7 @@ class Game {
         this.days = 0;
         if (this.intro_.counter == -1) {
             h = 'Impressum';
-            t = 'QUARANTÄNE\n\nSpielidee: Prof. Bernhard Ganter\nProgrammierung: Tim Häring / Bernhard Ganter\nVersion 1.0, 2021\n\nErlebnisland Mathematik\nEine Kooperation der Fakultät Mathematik der TU Dresden\nund der Technischen Sammlungen Dresden\nJunghansstr. 1-3\n01277 Dresden';
+            t = 'QUARANTÄNE\n\nSpielidee: Prof. Dr. Bernhard Ganter\nProgrammierung: Tim Häring / Bernhard Ganter\nVersion 1.0, 2021\n\nErlebnisland Mathematik\nEine Kooperation der Fakultät Mathematik der TU Dresden\nund der Technischen Sammlungen Dresden\nJunghansstr. 1-3\n01277 Dresden';
             b1 = 'Zum Spiel';
             b2 = '';
         }
